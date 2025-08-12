@@ -1,0 +1,934 @@
+{
+	"info": {
+		"_postman_id": "f074f6aa-1486-47a5-8faa-c7e1ab38c70c",
+		"name": "PZ-5",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46197138",
+		"_collection_link": "https://airat-8277046.postman.co/workspace/f6502e4c-9817-4b7a-8c4e-b900c475fc88/collection/46197138-f074f6aa-1486-47a5-8faa-c7e1ab38c70c?action=share&source=collection_link&creator=46197138"
+	},
+	"item": [
+		{
+			"name": "users page 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Успешный ответ 200 ОК\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Открылась 2 страница\", function() {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.page).to.eql(2);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Количество пользователей на странице верное\", function() {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.per_page).to.eql(6);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Данные существуют, нет пустых значений\", function() {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data).to.be.an('array').that.is.not.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Пользователь имеет верную структуру\", function() {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data[0]).to.have.all.keys('id', 'email', 'first_name', 'last_name', 'avatar');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Время ответа (меньше 500 мс)\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://reqres.in/api/users?page=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user 6 page 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Успешный ответ 200 ОК\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Вернулся именно пользователь с id 6\", function() {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.id).to.eql(6);\r",
+							"    pm.expect(jsonData.data.email).to.include(\"@reqres.in\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Верная структура данных пользователя\", function() {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data).to.have.all.keys(\r",
+							"        'id', 'email', 'first_name', 'last_name', 'avatar'\r",
+							"    );\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Время ответа (меньше 500 мс)\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://reqres.in/api/users?page=3&id=6",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "3"
+						},
+						{
+							"key": "id",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user not found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Пользователь не найден\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Тело ответа пустое\", function() {\r",
+							"    pm.response.to.have.jsonBody({});\r",
+							"});\r",
+							"pm.test(\"Время ответа (меньше 500 мс)\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://reqres.in/api/users/999",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"999"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List resourse",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Успешный ответ 200 ОК\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Элементы данных имеют правильную структуру\", function() {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    jsonData.data.forEach(item => {\r",
+							"        pm.expect(item).to.have.all.keys('id', 'name', 'year', 'color', 'pantone_value');\r",
+							"        pm.expect(item.id).to.be.a('number');\r",
+							"        pm.expect(item.name).to.be.a('string');\r",
+							"        pm.expect(item.year).to.be.a('number');\r",
+							"        pm.expect(item.color).to.match(/^#[0-9A-F]{6}$/i);\r",
+							"        pm.expect(item.pantone_value).to.be.a('string');\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Время ответа (меньше 500 мс)\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://reqres.in/api/unknown",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "resours 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Успешный ответ 200 ОК\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Данные ресурса содержат правильные значения\", function() {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    const color = jsonData.data;\r",
+							"    \r",
+							"    pm.expect(color.id).to.eql(3);\r",
+							"    pm.expect(color.name).to.eql(\"true red\");\r",
+							"    pm.expect(color.year).to.eql(2002);\r",
+							"    pm.expect(color.color).to.eql(\"#BF1932\");\r",
+							"    pm.expect(color.pantone_value).to.eql(\"19-1664\");\r",
+							"});\r",
+							"pm.test(\"Элементы данных имеют правильную структуру\", function() {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    const color = jsonData.data;\r",
+							"    \r",
+							"    pm.expect(color.id).to.be.a('number');\r",
+							"    pm.expect(color.name).to.be.a('string');\r",
+							"    pm.expect(color.year).to.be.a('number');\r",
+							"    pm.expect(color.color).to.be.a('string');\r",
+							"    pm.expect(color.pantone_value).to.be.a('string');\r",
+							"});\r",
+							"pm.test(\"Время ответа (меньше 500 мс)\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://reqres.in/api/unknown/3",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"unknown",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "new users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Пользователь успешно создан\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Структура ответа имеет ключи: name, job, id и createdAt\", () => {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.all.keys(\"name\", \"job\", \"id\", \"createdAt\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Имя и должность ответа совпадают с данными запроса\", () => {\r",
+							"    const requestData = JSON.parse(pm.request.body.raw);\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData.name).to.eql(requestData.name);\r",
+							"    pm.expect(responseData.job).to.eql(requestData.job);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Время ответа (меньше 500 мс)\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Airat\",\r\n    \"job\": \"TraineeQA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{users}}",
+					"host": [
+						"{{users}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registr user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Успешный ответ 200 ОК\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"ОТвет содержит token и id\", () => {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.all.keys(\"id\", \"token\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Время ответа (меньше 500 мс)\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"pistol\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{register}}",
+					"host": [
+						"{{register}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registr user missing pass",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Ошибка неполные данные\", () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Вывод ошибки отсутствующего пароля\", () => {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.error).to.eql(\"Missing password\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Время ответа (меньше 500 мс)\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{register}}",
+					"host": [
+						"{{register}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login succ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Успешный ответ 200 ОК\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Ответ содержит токен\", () => {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.property(\"token\");\r",
+							"    pm.expect(response.token).to.be.a(\"string\");\r",
+							"    pm.expect(response.token.length).to.be.greaterThan(10);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Время ответа (меньше 500 мс)\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"cityslicka\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{login}}",
+					"host": [
+						"{{login}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login error",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Ошибка в данных\", () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Вывод ошибки пользователь не существует\", () => {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response.error).to.eql(\"user not found\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Время ответа (меньше 500 мс)\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"mail@mail.ru\",\r\n    \"password\": \"cityslicka\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{login}}",
+					"host": [
+						"{{login}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Пользователь удален\", function() {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/7",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"7"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete user Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Пользователь удален\", function() {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/abc",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"abc"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Имя пользователя успешно обновлено\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Ответ содержит обновленные данные\", () => {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.all.keys(\"name\", \"updatedAt\");\r",
+							"});\r",
+							"pm.test(\"Время ответа (меньше 500 мс)\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"name\": \"Robert\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{users}}?id=5",
+					"host": [
+						"{{users}}"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "id",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user job",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Должность пользователя успешно обновлено\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Ответ содержит обновленные данные\", () => {\r",
+							"    const response = pm.response.json();\r",
+							"    pm.expect(response).to.have.all.keys(\"job\", \"updatedAt\");\r",
+							"});\r",
+							"pm.test(\"Время ответа (меньше 500 мс)\", () => {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"job\": \"JuniorQA\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{users}}?id=12",
+					"host": [
+						"{{users}}"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "id",
+							"value": "12"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
